@@ -1,0 +1,23 @@
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    width="{{width}}" height="{{height}}"
+>
+
+<style>
+.feed {fill:#54a9a3}
+.day-shade {fill: #f4f2e9}
+text {font-size: 15; font-family: "Georgia"}
+</style>
+
+{% for entry in day_shades %}
+    <rect class="day-shade" x="{{entry.x}}" y="{{entry.y}}" width="{{entry.width}}" height="{{entry.height}}"/>
+{% endfor %}
+
+
+{% for entry in rows %}
+ <text x="10" y="{{entry.text_y}}">{{entry.date}}</text>
+<rect class="feed" x="{{entry.x}}" y="{{entry.rect_y}}" width="{{entry.width}}" height="20"/>
+{% endfor %}
+
+</svg>
