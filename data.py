@@ -49,26 +49,11 @@ def write_svg(entries):
 
 
 def write_svg_content(entries, handle):
-    svg_width = 1000
+    day_width = 1000
+    date_column_width = 100
+    row_height = 25
+    width = day_width + date_column_width
 
-    #  <svg width="100" height="100">
-    handle.write("""
-    <svg xmlns="http://www.w3.org/2000/svg"
-xmlns:xlink="http://www.w3.org/1999/xlink">
-width="{width}" height="10000">
-
-<style>
-.feed {{fill:#54a9a3}}
-.day-part {{fill: #f4f2e9}}
-text {{font-size: 15; font-family: "Georgia"}}
-</style>
-""".format(width=svg_width))
-
-    #  entries[0:0] = [{
-    #      'date': datetime(2017,6,13),
-    #      'duration': 60*24,
-    #      'start': datetime.strptime('0', '%H'),
-    #  }]
     first = entries[0]
     last = entries[-1]
 
@@ -78,20 +63,44 @@ text {{font-size: 15; font-family: "Georgia"}}
 
     seconds_per_day = timedelta(days=1).total_seconds()
 
+    n_days = (last_start.date() - first_start.date()).days + 1
+
+    height = row_height * n_days
+
+    handle.write("""
+    <svg xmlns="http://www.w3.org/2000/svg"
+xmlns:xlink="http://www.w3.org/1999/xlink"
+width="{width}" height="{height}">
+
+<style>
+.feed {{fill:#54a9a3}}
+.day-part {{fill: #f4f2e9}}
+text {{font-size: 15; font-family: "Georgia"}}
+</style>
+""".format(
+        width=width,
+        height=height,
+    ))
+
+    #  entries[0:0] = [{
+    #      'date': datetime(2017,6,13),
+    #      'duration': 60*24,
+    #      'start': datetime.strptime('0', '%H'),
+    #  }]
     def date_y(dt):
         return (
             dt.date() - base.date()
-        ).total_seconds() / seconds_per_day * 25
+        ).total_seconds() / seconds_per_day * row_height
 
     def time_x(dt):
         return time_diff(
             base.time(), dt.time()
-        ).total_seconds() / seconds_per_day * svg_width + 100
+        ).total_seconds() / seconds_per_day * day_width + date_column_width
 
     def minute_width(minute):
-        return svg_width * minute / (24*60)
+        return day_width * minute / (24*60)
 
-    for offset in [0, svg_width / 2]:
+    for offset in [0, day_width / 2]:
         handle.write(
             (
                 '<rect class="day-part" x="{x}" y="{y}" '
@@ -100,7 +109,7 @@ text {{font-size: 15; font-family: "Georgia"}}
                 x=time_x(base) + offset,
                 y=date_y(base),
                 width=minute_width(60*6),
-                height=date_y(last_start),
+                height=date_y(last_start) + row_height,
             )
         )
 
