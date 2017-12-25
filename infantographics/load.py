@@ -2,8 +2,8 @@ from datetime import datetime
 import csv
 
 
-def load_csv(filename):
-    reader = csv.DictReader(open(filename))
+def load_csv(file_handle):
+    reader = csv.DictReader(file_handle)
     data = list(reader)
     entries = []
     for row in data:

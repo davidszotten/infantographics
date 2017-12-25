@@ -12,7 +12,9 @@ from datetime import datetime, timedelta, time, date
 from .load import load_csv
 
 
-def generate(input_filename, output_filename):
+def generate(args):
+    input_filename = args.input_filename
+    output_filename = args.output_filename
     data = load_csv(input_filename)
     write_svg(data, output_filename)
 
@@ -21,12 +23,7 @@ def time_diff(start, end):
     return datetime.combine(date.min, end) - datetime.combine(date.min, start)
 
 
-def write_svg(entries, output_filename):
-    with open(output_filename, 'w') as handle:
-        write_svg_content(entries, handle)
-
-
-def write_svg_content(entries, handle):
+def write_svg(entries, handle):
     day_width = 1000
     date_column_width = 100
     row_height = 25
