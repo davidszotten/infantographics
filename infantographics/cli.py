@@ -1,10 +1,11 @@
 import argparse
 import sys
 
-from . import calendar_grid, time_bars
+from . import calendar_circle, calendar_grid, time_bars
 
 
 modules = {
+    'calendar-circle': calendar_circle.generate,
     'calendar-grid': calendar_grid.generate,
     'time-bars': time_bars.generate,
 }
