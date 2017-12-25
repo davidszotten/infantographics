@@ -1,0 +1,24 @@
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    width="{{width}}" height="{{height}}"
+>
+
+<style>
+.feed {fill:#54a9a3}
+.day-shade {fill: #f4f2e9}
+text {font-size: 15; font-family: "Georgia"}
+</style>
+
+<text x="0" y="20">{{ max_duration // 60}} hours {{ max_duration % 60 }} minutes</text>
+
+{% for hour in range(max_duration // 60 + 1) %}
+    {% set y = max_duration - hour * 60 %}
+    <line x1="0" y1="{{ y }}" x2="{{ width }}" y2="{{ y }}" stroke-width="2" stroke="lightgray"/>
+{% endfor %}
+
+{% for bar in bars %}
+<rect class="feed" x="{{bar.x}}" y="{{ max_duration - bar.height }}" width="{{ day_width - 5 }}" height="{{ bar.height }}"/>
+{% endfor %}
+
+</svg>

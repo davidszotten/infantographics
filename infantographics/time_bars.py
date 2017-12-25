@@ -1,3 +1,7 @@
+from datetime import datetime, time
+from itertools import groupby
+
+from .templates import render
 from .load import load_csv
 
 
@@ -9,21 +13,39 @@ def generate(args):
 
 
 def write_svg(entries, handle):
-    width = 100
-    height = 100
-    handle.write("""<svg xmlns="http://www.w3.org/2000/svg"
-xmlns:xlink="http://www.w3.org/1999/xlink"
-width="{width}" height="{height}">
+    day_width = 15
 
-<style>
-.feed {{fill:#54a9a3}}
-.day-part {{fill: #f4f2e9}}
-text {{font-size: 15; font-family: "Georgia"}}
-</style>
-""".format(
-        width=width,
-        height=height,
-    ))
+    first = entries[0]
+
+    first_start = first['start']
+    base = datetime.combine(first_start.date(), time())
+
+    def date_x(date):
+        return (
+            date - base.date()
+        ).days * day_width
+
+    bars = []
+    max_duration = 0
+    for date, day_entries in groupby(entries, lambda e: e['start'].date()):
+        total_time = sum(e['duration'] for e in day_entries)
+        max_duration = max(max_duration, total_time)
+
+        bars.append({
+            'x': date_x(date),
+            'height': total_time,
+        })
+
+    width = day_width * len(bars)
+    height = 1000
+
+    handle.write(render('time_bars.jinja', {
+        'width': width,
+        'height': height,
+        'day_width': day_width,
+        'max_duration': max_duration,
+        'bars': bars,
+    }))
 
 
 #  def write_json(entries):

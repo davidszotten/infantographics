@@ -1,11 +1,12 @@
 import argparse
 import sys
 
-from . import calendar_grid
+from . import calendar_grid, time_bars
 
 
 modules = {
     'calendar-grid': calendar_grid.generate,
+    'time-bars': time_bars.generate,
 }
 
 
