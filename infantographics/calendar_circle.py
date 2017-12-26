@@ -31,6 +31,8 @@ def polar_to_cartesian(center_x, center_y, radius, angle_in_degrees):
 
 
 def describe_arc(x, y, radius, start_angle, end_angle):
+    # https://stackoverflow.com/questions/5736398/
+    # how-to-calculate-the-svg-path-for-an-arc-of-a-circle
 
     start = polar_to_cartesian(x, y, radius, end_angle)
     end = polar_to_cartesian(x, y, radius, start_angle)
