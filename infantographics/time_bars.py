@@ -2,13 +2,13 @@ from datetime import datetime, time
 from itertools import groupby
 
 from .templates import render
-from .load import load_csv
+from .load import load_spreadsheet
 
 
 def generate(args):
     input_filename = args.input_filename
     output_filename = args.output_filename
-    data = load_csv(input_filename)
+    data = load_spreadsheet(input_filename)
     write_svg(data, output_filename)
 
 

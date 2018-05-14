@@ -20,12 +20,14 @@ def get_module(name):
 
 def setup_parser():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-t', '--type', type=get_module)
+    parser.add_argument(
+        '-t', '--type', type=get_module, choices=modules.keys(),
+    )
 
     parser.add_argument(
         'input_filename',
         nargs='?',
-        type=argparse.FileType('r'),
+        type=argparse.FileType('rb'),
         default=sys.stdin,
     )
     parser.add_argument(

@@ -10,14 +10,14 @@ day3     ##    #
 from datetime import datetime, timedelta, time, date
 import math
 
-from .load import load_csv
+from .load import load_spreadsheet
 from .templates import render
 
 
 def generate(args):
     input_filename = args.input_filename
     output_filename = args.output_filename
-    data = load_csv(input_filename)
+    data = load_spreadsheet(input_filename)
     write_svg(data, output_filename)
 
 

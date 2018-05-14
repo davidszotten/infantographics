@@ -8,6 +8,7 @@ setup(
     packages=find_packages(exclude=['tests']),
     install_requires=[
         'jinja2',
+        'xlrd',
     ],
     include_package_data=True,
     zip_safe=False,
