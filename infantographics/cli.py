@@ -20,9 +20,7 @@ def get_module(name):
 
 def setup_parser():
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        '-t', '--type', type=get_module, choices=modules.keys(),
-    )
+    parser.add_argument('-t', '--type', choices=modules.keys())
 
     parser.add_argument(
         'input_filename',
@@ -42,4 +40,5 @@ def setup_parser():
 def main():
     parser = setup_parser()
     args = parser.parse_args()
-    args.type(args)
+    generator = get_module(args.type)
+    generator(args)
